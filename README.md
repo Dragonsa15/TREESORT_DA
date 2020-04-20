@@ -9,7 +9,7 @@ of nodes) and each of the leaf nodes have a key associated with them which lief 
 
 To each leaf, we can assign a string in the following way:
 
-Each leaf node can be associated with a simple path 1=v1,v2,…,vl from the root to leaf vl
+Each leaf node can be associated with a simple path Sl=v1,v2,…,vl from the root to leaf vl
 - the string Svl assigned to leaf vl has length l−1; 
 - for each valid i, Si is 'L' if vi+1 is the left son of vi or 'R' if it's the right son of vi
 
