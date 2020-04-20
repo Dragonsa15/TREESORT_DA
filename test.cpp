@@ -1,15 +1,15 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-void PrintTree(map<int,pair<int,int>> Tree,int N)
-{
-	for(int i=1;i<N+1;i++)
-    {
-        cout<<i<<":"<<Tree[i].first<<" "<<Tree[i].second<<endl;
-    }
-}
+// void PrintTree(map<int,pair<int,int>> Tree,int N)
+// {
+// 	for(int i=1;i<N+1;i++)
+//     {
+//         cout<<i<<":"<<Tree[i].first<<" "<<Tree[i].second<<endl;
+//     }
+// }
 
-int NumberSwaps(map<int,pair<int,int>> Tree,map<int,pair<int,int>>& Max_Min,int N,int index)
+int NumberSwaps(map<int,pair<int,int>>& Tree,map<int,pair<int,int>>& Max_Min,int index)
 {
     //Checking if the given node is a leaf by seeing if the left child is -1
 	if(Tree[index].first == -1)
@@ -26,8 +26,8 @@ int NumberSwaps(map<int,pair<int,int>> Tree,map<int,pair<int,int>>& Max_Min,int 
 	else
 	{
 		//Recursively finding the minimum number of swaps in left and right child
-        int lft = NumberSwaps(Tree,Max_Min,N,Tree[index].first);
-		int rgt = NumberSwaps(Tree,Max_Min,N,Tree[index].second);
+        int lft = NumberSwaps(Tree,Max_Min,Tree[index].first);
+		int rgt = NumberSwaps(Tree,Max_Min,Tree[index].second);
         //cout<<Tree[index].first<<" "<<Max_Min[Tree[index].first].first<<" "<<Tree[index].second<<" " <<Max_Min[Tree[index].second].second<<endl;
         
         if(lft == -1 || rgt == -1)
@@ -36,33 +36,38 @@ int NumberSwaps(map<int,pair<int,int>> Tree,map<int,pair<int,int>>& Max_Min,int 
         }
         //No need to do swapping if the max of left child is lesser than the 
         //min of the right child
-		if(Max_Min[Tree[index].first].first < Max_Min[Tree[index].second].second)
-		{
-			Max_Min[index].first = Max_Min[Tree[index].second].first;
-			Max_Min[index].second = Max_Min[Tree[index].first].second;
-
-			return lft + rgt;
-		}
-
-        //The one and only need to do swapping is when the Min of left child
-        //is greater then the max of right child
-		else if(Max_Min[Tree[index].first].second >= Max_Min[Tree[index].second].first)
-		{
-			Max_Min[index].first = Max_Min[Tree[index].first].first;
-			Max_Min[index].second = Max_Min[Tree[index].second].second;
-			
-			return lft + rgt + 1;
-		}
-
-        //if it doesn't satisfy the above conditions then that means 
-        //there are some overlapping in the values in the left and right child
-        //Thus, no amount of swapping possible can lexiographically and numerically
-        // sort this tree
-		
         else
-		{
-			return -1;
-		}
+        {
+            if(Max_Min[Tree[index].first].first <= Max_Min[Tree[index].second].second)
+		    {
+		    	Max_Min[index].first = Max_Min[Tree[index].second].first;
+		    	Max_Min[index].second = Max_Min[Tree[index].first].second;
+
+		    	return lft + rgt;
+		    }
+
+            //The one and only need to do swapping is when the Min of left child
+            //is greater then the max of right child
+		    else if(Max_Min[Tree[index].first].second >= Max_Min[Tree[index].second].first)
+		    {
+		    	Max_Min[index].first = Max_Min[Tree[index].first].first;
+		    	Max_Min[index].second = Max_Min[Tree[index].second].second;
+    
+		    	return lft + rgt + 1;
+		    }
+
+            //if it doesn't satisfy the above conditions then that means 
+            //there are some overlapping in the values in the left and right child
+            //Thus, no amount of swapping possible can lexiographically and numerically
+            // sort this tree
+		
+            else
+		    {
+		    	return -1;
+		    }
+        }
+        
+
 	}
 }
 int main()
@@ -76,7 +81,7 @@ int main()
     //t = testcases  ;   N = no. of nodes
     int t,N;
     cin>>t;
-    while(t>0)
+    while(t--)
     {
         cin>>N;
         for(int i=0;i<N;i++)
@@ -90,12 +95,9 @@ int main()
             //Making the Max and min respectively as the least and highest values
             Max_Min[i+1] = make_pair(0,1000000);
         }
+        
         //PrintTree(Tree,N);
-        if(t!=1)
-        	cout << NumberSwaps(Tree,Max_Min,N,1)<<endl;
-        else
-        	cout << NumberSwaps(Tree,Max_Min,N,1);
-        t--;
+        cout << NumberSwaps(Tree,Max_Min,1) << "\n";
     }
     return 0;
 }

@@ -24,7 +24,7 @@ int NumberSwaps(map<int,pair<int,int>> Tree,map<int,pair<int,int>>& Max_Min,int 
         }
         //No need to do swapping if the max of left child is lesser than the 
         //min of the right child
-		if(Max_Min[Tree[index].first].first < Max_Min[Tree[index].second].second)
+		if(Max_Min[Tree[index].first].first <= Max_Min[Tree[index].second].second)
 		{
 			Max_Min[index].first = Max_Min[Tree[index].second].first;
 			Max_Min[index].second = Max_Min[Tree[index].first].second;
